@@ -17,6 +17,17 @@ public class Main {
         printMaxSalaryEmployees();
         printAverageSalaryEmployees();
         printFioEmployees();
+        salaryIndexationEmployees(101);
+        printEmployees();
+        departmentMinSalaryEmployees(1);
+        departmentMaxSalaryEmployees(1);
+        departmentSumSalaryEmployees(1);
+        departmentAverageSalaryEmployees(1);
+        departmentIndexationSalaryEmployees(1, -50);
+        printEmployees();
+        printDepartmentEmployees(5);
+        minSalaryEmployees(50000);
+        maxSalaryEmployees(500000);
 
     }
 
@@ -56,6 +67,7 @@ public class Main {
             if (employee != null && employee.getSalary() < min) {
                 min = employee.getSalary();
             }
+
         }
 
         for (Employee employee : employees) {
@@ -129,4 +141,209 @@ public class Main {
 
     }
 
+    private static void salaryIndexationEmployees(int percent) {
+
+        if (percent < -100) throw new IllegalArgumentException("Индексация меньше -100% не может быть произведена");
+
+        for (int i = 0; i < 10; i++) {
+
+            if (employees[i] != null) {
+                employees[i].setSalary(employees[i].getSalary() + employees[i].getSalary() * percent / 100);
+            }
+
+        }
+
+    }
+
+    private static void departmentMinSalaryEmployees(int department) {
+
+        if (department < 1 || department > 5) throw new IllegalArgumentException("Номер отдела должен быть от 1 до 5");
+
+        double min = Double.MAX_VALUE;
+        int index = 0;
+
+        for (int i = 0; i < 10; i++) {
+
+            if (employees[i] != null) {
+
+                if (employees[i].getDepartment() == department && employees[i].getSalary() < min) {
+
+                    min = employees[i].getSalary();
+                    index = i;
+
+                }
+
+            }
+
+        }
+
+        System.out.println("В отделе номер: " + department + " сотрудник с минимальной зарплатой "
+                + employees[index].getLastName() + " " + employees[index].getFirstName() +
+                " " + employees[index].getMiddleName() + " " + "с зарплатой: " + employees[index].getSalary());
+
+    }
+
+    private static void departmentMaxSalaryEmployees(int department) {
+
+        if (department < 1 || department > 5) throw new IllegalArgumentException("Номер отдела должен быть от 1 до 5");
+
+        double max = -1;
+        int index = 0;
+
+        for (int i = 0; i < 10; i++) {
+
+            if (employees[i] != null) {
+
+                if (employees[i].getDepartment() == department && employees[i].getSalary() > max) {
+
+                    max = employees[i].getSalary();
+                    index = i;
+
+                }
+
+            }
+
+        }
+
+        System.out.println("В отделе номер: " + department + " сотрудник с максимальной зарплатой "
+                + employees[index].getLastName() + " " + employees[index].getFirstName() +
+                " " + employees[index].getMiddleName() + " " + "с зарплатой: " + employees[index].getSalary());
+
+    }
+
+    private static void departmentSumSalaryEmployees(int department) {
+
+        if (department < 1 || department > 5) throw new IllegalArgumentException("Номер отдела должен быть от 1 до 5");
+
+        double sum = 0;
+
+        for (Employee employee : employees) {
+
+            if (employee != null && employee.getDepartment() == department) {
+                sum += employee.getSalary();
+            }
+        }
+
+        System.out.println("Общая сумма зарплат отдела номер: " + department + " равна: " + sum);
+
+    }
+
+    private static void departmentAverageSalaryEmployees(int department) {
+
+        if (department < 1 || department > 5) throw new IllegalArgumentException("Номер отдела должен быть от 1 до 5");
+
+        int count = 0;
+        double sum = 0;
+
+        for (Employee employee : employees) {
+
+            if (employee != null && employee.getDepartment() == department) {
+
+                sum += employee.getSalary();
+                count++;
+
+            }
+
+        }
+
+        System.out.println("Средняя сумма зарплат отдела номер: " + department + " равна: "
+                + String.format("%.2f", sum / count));
+
+    }
+
+    private static void departmentIndexationSalaryEmployees(int department, int percent) {
+
+        if (department < 1 || department > 5) throw new IllegalArgumentException("Номер отдела должен быть от 1 до 5");
+        if (percent < -100) throw new IllegalArgumentException("Индексация меньше -100% не может быть произведена");
+
+        for (int i = 0; i < 10; i++) {
+
+            if (employees[i] != null && employees[i].getDepartment() == department) {
+                employees[i].setSalary(employees[i].getSalary() + employees[i].getSalary() * percent / 100);
+            }
+
+        }
+
+    }
+
+    private static void printDepartmentEmployees(int department) {
+
+        if (department < 1 || department > 5) throw new IllegalArgumentException("Номер отдела должен быть от 1 до 5");
+
+        int count = 0;
+
+        System.out.println("Сотруднки отдела номер: " + department);
+
+        for (int i = 0; i < 10; i++) {
+
+            if (employees[i] != null && employees[i].getDepartment() == department) {
+
+                System.out.println("Ф.И.О: " + employees[i].getLastName() + " " + employees[i].getFirstName() + " "
+                        + employees[i].getMiddleName() + ", ID: " + employees[i].getId() +
+                        ", зарплата: " + employees[i].getSalary());
+                count++;
+
+            }
+
+        }
+
+        if (count == 0) {
+            System.out.println("Сотрудники в отделе отсуствуют");
+        }
+
+    }
+
+    private static void minSalaryEmployees(int salary) {
+
+        if (salary < 0) throw new IllegalArgumentException("Значение зарплаты должна быть не меньше нуля!");
+
+        int count = 0;
+
+        System.out.println("Сотрудники с зарплатой меньше " + salary + ":");
+
+        for (Employee employee : employees) {
+
+            if (employee != null && employee.getSalary() < salary) {
+
+                System.out.println("ID: " + employee.getId() + ", Ф.И.О: " + employee.getLastName() +
+                        " " + employee.getFirstName() + " " + employee.getMiddleName() + ", зарплата: " + employee.getSalary());
+                count++;
+
+            }
+
+        }
+
+        if (count == 0) {
+            System.out.println("Такие сотрудники отсуствуют");
+        }
+
+    }
+
+    private static void maxSalaryEmployees(int salary) {
+
+        if (salary < 0) throw new IllegalArgumentException("Значение зарплаты должна быть не меньше нуля!");
+
+        int count = 0;
+
+        System.out.println("Сотрудники с зарплатой больше либо равной " + salary + ":");
+
+        for (Employee employee : employees) {
+
+            if (employee != null && employee.getSalary() >= salary) {
+
+                System.out.println("ID: " + employee.getId() + ", Ф.И.О: " + employee.getLastName() +
+                        " " + employee.getFirstName() + " " + employee.getMiddleName() + ", зарплата: " + employee.getSalary());
+                count++;
+
+            }
+
+        }
+
+        if (count == 0) {
+            System.out.println("Такие сотрудники отсуствуют");
+        }
+
+    }
+
 }
+

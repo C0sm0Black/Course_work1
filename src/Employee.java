@@ -15,7 +15,7 @@ public class Employee {
         this.lastName = lastName;
         if (department < 1 || department > 5) throw new IllegalArgumentException("Номер отдела должен быть от 1 до 5");
         this.department = department;
-        if (salary <= 0) throw new IllegalArgumentException("Значение зарплаты должна быть больше нуля!");
+        if (salary < 0) throw new IllegalArgumentException("Значение зарплаты должна быть не меньше нуля!");
         this.salary = salary;
         this.id = ++countId;
 
